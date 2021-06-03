@@ -1,18 +1,21 @@
 package functions;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import functions.factory.AdviceFactory;
-import functions.factory.RandomFactory;
 import functions.factory.RequestorFactory;
+import functions.model.Advice;
 import functions.model.Requestor;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.util.Random;
 
 public class Dafte implements HttpFunction {
+
+    private static final ObjectMapper mapper = getObjectMapper();
 
     /**
      * Hello DAFTE!
@@ -20,15 +23,21 @@ public class Dafte implements HttpFunction {
     @Override
     public void service(HttpRequest request, HttpResponse response) throws IOException {
         Requestor requestor = RequestorFactory.fromHttpRequest(request);
-        Random seededRandomizer = RandomFactory.forRequestor(requestor);
-        String advice = AdviceFactory.generateAdvice(seededRandomizer);
+        Advice advice = AdviceFactory.createAdviceFor(requestor);
 
         sendAdvice(response, advice);
     }
 
-    
-    private void sendAdvice(HttpResponse response, String advice) throws IOException {
+
+    private void sendAdvice(HttpResponse response, Advice advice) throws IOException {
         BufferedWriter writer = response.getWriter();
-        writer.write(advice);
+        String json = mapper.writeValueAsString(advice);
+        writer.write(json);
+    }
+
+    private static ObjectMapper getObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
     }
 }

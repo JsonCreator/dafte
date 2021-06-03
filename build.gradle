@@ -7,11 +7,21 @@ configurations {
     invoker
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
+
 dependencies {
     // Build
     implementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
     implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
     annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
+
 
     // Run Invoker
     invoker group: 'com.google.cloud.functions.invoker', name: 'java-function-invoker', version: gcFunctionsInvokerVersion
