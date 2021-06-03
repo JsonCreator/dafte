@@ -6,9 +6,6 @@ apply plugin: 'java'
 repositories {
     mavenCentral()
 }
-configurations {
-    invoker
-}
 
 java {
     toolchain {
@@ -16,29 +13,14 @@ java {
     }
 }
 
+// Main Application Spec for Spark
 application {
     mainClassName = "dafte.Dafte"
 }
 
-dependencies {
-    // Build
-    implementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
-    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
-    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
-    implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
-    implementation group: 'org.apache.commons', name: 'commons-collections4', version: apacheCollectionsVersion
-
-    implementation group:'com.sparkjava', name: 'spark-core', version: sparkVersion
-
-
-    // Run Invoker
-    invoker group: 'com.google.cloud.functions.invoker', name: 'java-function-invoker', version: gcFunctionsInvokerVersion
-
-    // Tests
-    testImplementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
+// GC Function Invoker
+configurations {
+    invoker
 }
 
 // Register a "runFunction" task to run the function locally
@@ -53,4 +35,23 @@ tasks.register("runFunction", JavaExec) {
     doFirst {
         args('--classpath', files(configurations.runtimeClasspath, sourceSets.main.output).asPath)
     }
+}
+
+dependencies {
+    // Build Libraries
+    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: jacksonVersion
+    implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
+    implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
+    implementation group: 'org.apache.commons', name: 'commons-collections4', version: apacheCollectionsVersion
+
+    // Supported Frameworks
+    implementation group: 'com.sparkjava', name: 'spark-core', version: sparkVersion
+    implementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
+    invoker group: 'com.google.cloud.functions.invoker', name: 'java-function-invoker', version: gcFunctionsInvokerVersion
+
+    // Tests
+    testImplementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
 }
