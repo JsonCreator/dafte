@@ -1,3 +1,6 @@
+plugins {
+    id("application")
+}
 apply plugin: 'java'
 
 repositories {
@@ -13,6 +16,10 @@ java {
     }
 }
 
+application {
+    mainClassName = "dafte.Dafte"
+}
+
 dependencies {
     // Build
     implementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
@@ -23,6 +30,8 @@ dependencies {
     implementation group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: jacksonVersion
     implementation group: 'com.google.guava', name: 'guava', version: guavaVersion
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: apacheCollectionsVersion
+
+    implementation group:'com.sparkjava', name: 'spark-core', version: sparkVersion
 
 
     // Run Invoker

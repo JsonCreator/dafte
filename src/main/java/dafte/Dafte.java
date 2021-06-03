@@ -8,20 +8,40 @@ import dafte.factory.RequestorFactory;
 import dafte.model.Advice;
 import dafte.model.Requester;
 import dafte.model.ResultShape;
+import spark.Request;
+import spark.Response;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
+import static spark.Spark.get;
+
 public class Dafte implements HttpFunction {
 
     /**
-     * It's DAFTE! Get your free Advice!
+     * It's DAFTE! But it's a Spark REST Server
+     */
+    public static void main(String[] args) {
+        // Only one route baby. This is ALL we do
+        get("/", Dafte::sendAdvice);
+    }
+
+    public static String sendAdvice(Request request, Response response) throws IOException {
+        Requester requester = RequestorFactory.fromRequest(request);
+        Advice advice = AdviceFactory.createAdviceFor(requester);
+        ResultShape resultShape = ResultShape.fromRequest(request);
+
+        return resultShape.buildResult(advice);
+    }
+
+    /**
+     * It's DAFTE! But it's a Google Cloud Function
      */
     @Override
     public void service(HttpRequest request, HttpResponse response) throws IOException {
         Requester requester = RequestorFactory.fromHttpRequest(request);
         Advice advice = AdviceFactory.createAdviceFor(requester);
-        ResultShape resultShape = ResultShape.fromRequest(request);
+        ResultShape resultShape = ResultShape.fromHttpRequest(request);
 
         sendAdvice(response, resultShape, advice);
     }
