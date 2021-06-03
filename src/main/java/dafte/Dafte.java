@@ -6,6 +6,7 @@ import com.google.cloud.functions.HttpResponse;
 import dafte.factory.AdviceFactory;
 import dafte.factory.RequestorFactory;
 import dafte.model.Advice;
+import dafte.model.DafteRequest;
 import dafte.model.Requester;
 import dafte.model.ResultShape;
 import spark.Request;
@@ -19,36 +20,34 @@ import static spark.Spark.get;
 public class Dafte implements HttpFunction {
 
     /**
-     * It's DAFTE! But it's a Spark REST Server
+     * It's DAFTE! But as a Spark REST Server
      */
     public static void main(String[] args) {
         // Only one route baby. This is ALL we do
-        get("/", Dafte::sendAdvice);
+        get("/", Dafte::getAdviceForSpark);
     }
 
-    public static String sendAdvice(Request request, Response response) throws IOException {
-        Requester requester = RequestorFactory.fromRequest(request);
+    /**
+     * It's DAFTE! But as a Google Cloud Function
+     */
+    @Override
+    public void service(HttpRequest request, HttpResponse response) throws IOException {
+        DafteRequest dafteRequest = new DafteRequest(request);
+
+        BufferedWriter writer = response.getWriter();
+        writer.write(getAdvice(dafteRequest));
+    }
+
+    protected static String getAdvice(DafteRequest dafteRequest) throws IOException {
+        Requester requester = RequestorFactory.fromRequest(dafteRequest);
+        ResultShape resultShape = ResultShape.fromRequest(dafteRequest);
         Advice advice = AdviceFactory.createAdviceFor(requester);
-        ResultShape resultShape = ResultShape.fromRequest(request);
 
         return resultShape.buildResult(advice);
     }
 
-    /**
-     * It's DAFTE! But it's a Google Cloud Function
-     */
-    @Override
-    public void service(HttpRequest request, HttpResponse response) throws IOException {
-        Requester requester = RequestorFactory.fromHttpRequest(request);
-        Advice advice = AdviceFactory.createAdviceFor(requester);
-        ResultShape resultShape = ResultShape.fromHttpRequest(request);
-
-        sendAdvice(response, resultShape, advice);
-    }
-
-
-    private void sendAdvice(HttpResponse response, ResultShape resultShape, Advice advice) throws IOException {
-        BufferedWriter writer = response.getWriter();
-        writer.write(resultShape.buildResult(advice));
+    private static String getAdviceForSpark(Request request, Response response) throws IOException {
+        DafteRequest dafteRequest = new DafteRequest(request);
+        return getAdvice(dafteRequest);
     }
 }

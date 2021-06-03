@@ -9,6 +9,6 @@ import java.time.LocalDate;
 @Getter
 public class Requester {
 
-    private String name;
-    private LocalDate requestedOn;
+    private final String name;
+    private final LocalDate requestedOn;
 }

@@ -2,11 +2,8 @@ package dafte.model;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.google.cloud.functions.HttpRequest;
 import com.google.common.collect.ImmutableMap;
-import dafte.util.QueryParamUtils;
-import dafte.util.QueryParamUtils.QueryParam;
-import spark.Request;
+import dafte.model.DafteRequest.QueryParam;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -39,20 +36,10 @@ public enum ResultShape {
                     Arrays.stream(values())
                             .collect(Collectors.toMap(ResultShape::name, Function.identity())));
 
-    public static ResultShape fromRequest(Request request) {
-        Optional<String> paramString = Optional.ofNullable(
-                QueryParamUtils.extractSingleParam(QueryParam.SHAPE, request));
+    public static ResultShape fromRequest(DafteRequest request) {
+        Optional<String> paramString = Optional.ofNullable(request.getOneParamValue(QueryParam.SHAPE));
 
-        return  paramString.map(String::toUpperCase)
-                .map(RESULT_SHAPE_MAP::get)
-                .orElse(JSON);
-    }
-
-    public static ResultShape fromHttpRequest(HttpRequest request) {
-        Optional<String> paramString = Optional.ofNullable(
-                QueryParamUtils.extractSingleParam(QueryParam.SHAPE, request));
-
-        return  paramString.map(String::toUpperCase)
+        return paramString.map(String::toUpperCase)
                 .map(RESULT_SHAPE_MAP::get)
                 .orElse(JSON);
     }

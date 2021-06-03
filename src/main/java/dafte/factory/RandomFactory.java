@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class RandomFactory {
 
-    public static Random forRequestor(Requester requester) {
+    public static Random forRequester(Requester requester) {
         if (requester.getName() != null) {
             return new Random(generateSeed(requester));
         }

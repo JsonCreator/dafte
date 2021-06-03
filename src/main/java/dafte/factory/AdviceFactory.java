@@ -10,7 +10,7 @@ import java.util.Random;
 public class AdviceFactory {
 
     public static Advice createAdviceFor(Requester requester) {
-        Random randomSeed = RandomFactory.forRequestor(requester);
+        Random randomSeed = RandomFactory.forRequester(requester);
 
         String preparedFor = requester.getName();
         String advice = generateAdvice(randomSeed);
