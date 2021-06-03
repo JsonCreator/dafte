@@ -1,7 +1,7 @@
-package functions.factory;
+package dafte.factory;
 
-import functions.model.Advice;
-import functions.model.Requestor;
+import dafte.model.Advice;
+import dafte.model.Requestor;
 
 import java.util.Random;
 

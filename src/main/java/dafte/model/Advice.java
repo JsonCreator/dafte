@@ -1,4 +1,4 @@
-package functions.model;
+package dafte.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

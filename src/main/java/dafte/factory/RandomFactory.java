@@ -1,6 +1,6 @@
-package functions.factory;
+package dafte.factory;
 
-import functions.model.Requestor;
+import dafte.model.Requestor;
 
 import java.util.Random;
 

@@ -1,14 +1,14 @@
-package functions;
+package dafte;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
-import functions.factory.AdviceFactory;
-import functions.factory.RequestorFactory;
-import functions.model.Advice;
-import functions.model.Requestor;
+import dafte.factory.AdviceFactory;
+import dafte.factory.RequestorFactory;
+import dafte.model.Advice;
+import dafte.model.Requestor;
 
 import java.io.BufferedWriter;
 import java.io.IOException;

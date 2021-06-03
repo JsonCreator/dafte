@@ -1,7 +1,7 @@
-package functions.factory;
+package dafte.factory;
 
 import com.google.cloud.functions.HttpRequest;
-import functions.model.Requestor;
+import dafte.model.Requestor;
 
 import java.time.LocalDate;
 

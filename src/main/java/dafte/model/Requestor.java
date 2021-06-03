@@ -1,4 +1,4 @@
-package functions.model;
+package dafte.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
