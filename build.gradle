@@ -9,7 +9,9 @@ configurations {
 
 dependencies {
     // Build
-    compileOnly group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
+    implementation group: 'com.google.cloud.functions', name: 'functions-framework-api', version: gcFunctionsVersion
+    implementation group: 'org.projectlombok', name: 'lombok', version: lombokVersion
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: lombokVersion
 
     // Run Invoker
     invoker group: 'com.google.cloud.functions.invoker', name: 'java-function-invoker', version: gcFunctionsInvokerVersion
