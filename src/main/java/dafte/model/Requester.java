@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @AllArgsConstructor
 @Getter
-public class Requestor {
+public class Requester {
 
     private String name;
     private LocalDate requestedOn;

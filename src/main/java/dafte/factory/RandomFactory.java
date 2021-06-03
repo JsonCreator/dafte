@@ -1,24 +1,24 @@
 package dafte.factory;
 
-import dafte.model.Requestor;
+import dafte.model.Requester;
 
 import java.util.Random;
 
 public class RandomFactory {
 
-    public static Random forRequestor(Requestor requestor) {
-        if (requestor.getName() != null) {
-            return new Random(generateSeed(requestor));
+    public static Random forRequestor(Requester requester) {
+        if (requester.getName() != null) {
+            return new Random(generateSeed(requester));
         }
 
         return new Random();
     }
 
-    private static long generateSeed(Requestor requestor) {
+    private static long generateSeed(Requester requester) {
         long nameSum = 0L;
-        long epochDay = requestor.getRequestedOn().toEpochDay();
+        long epochDay = requester.getRequestedOn().toEpochDay();
 
-        for (Character character : requestor.getName().toCharArray()) {
+        for (Character character : requester.getName().toCharArray()) {
             nameSum += Character.getNumericValue(character);
         }
 

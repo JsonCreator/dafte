@@ -1,7 +1,7 @@
 package dafte.factory;
 
 import dafte.model.Advice;
-import dafte.model.Requestor;
+import dafte.model.Requester;
 import dafte.template.AdviceTemplate;
 import dafte.template.AdviceTemplates;
 
@@ -9,13 +9,13 @@ import java.util.Random;
 
 public class AdviceFactory {
 
-    public static Advice createAdviceFor(Requestor requestor) {
-        Random randomSeed = RandomFactory.forRequestor(requestor);
+    public static Advice createAdviceFor(Requester requester) {
+        Random randomSeed = RandomFactory.forRequestor(requester);
 
-        String preparedFor = requestor.getName();
+        String preparedFor = requester.getName();
         String advice = generateAdvice(randomSeed);
 
-        return new Advice(preparedFor, requestor.getRequestedOn(), advice);
+        return new Advice(preparedFor, requester.getRequestedOn(), advice);
     }
 
     private static String generateAdvice(Random randomSeed) {

@@ -1,7 +1,9 @@
 package dafte.factory;
 
 import com.google.cloud.functions.HttpRequest;
-import dafte.model.Requestor;
+import dafte.model.Requester;
+import dafte.util.QueryParamUtils;
+import dafte.util.QueryParamUtils.QueryParam;
 
 import java.time.LocalDate;
 
@@ -9,11 +11,11 @@ public class RequestorFactory {
 
     private static final String NAME_QUERY_PARAM = "name";
 
-    public static Requestor fromHttpRequest(HttpRequest request) {
-        String requestorName = getNameFromRequest(request);
+    public static Requester fromHttpRequest(HttpRequest request) {
+        String requesterName = QueryParamUtils.extractSingleParam(QueryParam.NAME, request);
         LocalDate requestDate = LocalDate.now();
 
-        return new Requestor(requestorName, requestDate);
+        return new Requester(requesterName, requestDate);
     }
 
     private static String getNameFromRequest(HttpRequest request) {

@@ -1,43 +1,34 @@
 package dafte;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import dafte.factory.AdviceFactory;
 import dafte.factory.RequestorFactory;
 import dafte.model.Advice;
-import dafte.model.Requestor;
+import dafte.model.Requester;
+import dafte.model.ResultShape;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
 
 public class Dafte implements HttpFunction {
 
-    private static final ObjectMapper mapper = getObjectMapper();
-
     /**
-     * Hello DAFTE!
+     * It's DAFTE! Get your free Advice!
      */
     @Override
     public void service(HttpRequest request, HttpResponse response) throws IOException {
-        Requestor requestor = RequestorFactory.fromHttpRequest(request);
-        Advice advice = AdviceFactory.createAdviceFor(requestor);
+        Requester requester = RequestorFactory.fromHttpRequest(request);
+        Advice advice = AdviceFactory.createAdviceFor(requester);
+        ResultShape resultShape = ResultShape.fromRequest(request);
 
-        sendAdvice(response, advice);
+        sendAdvice(response, resultShape, advice);
     }
 
 
-    private void sendAdvice(HttpResponse response, Advice advice) throws IOException {
+    private void sendAdvice(HttpResponse response, ResultShape resultShape, Advice advice) throws IOException {
         BufferedWriter writer = response.getWriter();
-        String json = mapper.writeValueAsString(advice);
-        writer.write(json);
-    }
-
-    private static ObjectMapper getObjectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        return mapper;
+        writer.write(resultShape.buildResult(advice));
     }
 }
