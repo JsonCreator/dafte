@@ -27,9 +27,9 @@ public enum ResultShape {
         }
     };
 
-    private static final ObjectMapper mapper = getObjectMapper();
-
     public abstract String buildResult(Advice advice) throws IOException;
+
+    private static final ObjectMapper mapper = getObjectMapper();
 
     private static final ImmutableMap<String, ResultShape> RESULT_SHAPE_MAP =
             ImmutableMap.copyOf(

@@ -13,17 +13,6 @@ import java.util.Set;
 
 public class DafteRequest {
 
-    public enum QueryParam {
-        NAME,
-        SHAPE;
-
-        public Set<String> getVariants() {
-            return Set.of(
-                    this.name(), // Uppercase is default
-                    this.name().toLowerCase());
-        }
-    }
-
     private final Map<String, List<String>> parameters;
 
     public DafteRequest(Request request) {
@@ -47,7 +36,6 @@ public class DafteRequest {
 
     private static String findMatchingVariant(Set<String> parameters, Set<String> paramVariants) {
         Collection<String> matchedVariants = CollectionUtils.intersection(parameters, paramVariants);
-
         return matchedVariants.stream().findFirst().orElse(null);
     }
 
@@ -57,5 +45,16 @@ public class DafteRequest {
             convertedMap.put(entry.getKey(), Arrays.asList(entry.getValue()));
         }
         return convertedMap;
+    }
+
+    public enum QueryParam {
+        NAME,
+        SHAPE;
+
+        public Set<String> getVariants() {
+            return Set.of(
+                    this.name(), // Uppercase is default
+                    this.name().toLowerCase());
+        }
     }
 }

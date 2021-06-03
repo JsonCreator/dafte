@@ -7,7 +7,6 @@ import java.time.LocalDate;
 
 public class RequestorFactory {
 
-
     public static Requester fromRequest(DafteRequest request) {
         String requesterName = request.getOneParamValue(DafteRequest.QueryParam.NAME);
         LocalDate requestDate = LocalDate.now();

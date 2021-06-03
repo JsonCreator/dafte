@@ -10,7 +10,6 @@ public class RandomFactory {
         if (requester.getName() != null) {
             return new Random(generateSeed(requester));
         }
-
         return new Random();
     }
 
