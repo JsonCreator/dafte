@@ -1,5 +1,7 @@
 package dafte.template;
 
+import dafte.template.components.AdviceComponent;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
