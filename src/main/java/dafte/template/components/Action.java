@@ -28,7 +28,19 @@ public class Action extends AdviceComponent {
             "make lunch",
             "delete that email",
             "talk to HR",
-            "solve a theoretical problem");
+            "solve a theoretical problem",
+            "negotiate a promotion",
+            "get it to the cloud",
+            "harness your motivation",
+            "write the dang ticket",
+            "start from scratch",
+            "simplify the process",
+            "demo it live",
+            "receive praise from your peers",
+            "win the game",
+            "defeat the patriarchy",
+            "triumph over Jira",
+            "burn it all down");
 
     @Override
     protected ImmutableList<String> getValues() {

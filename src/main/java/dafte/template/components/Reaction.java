@@ -16,7 +16,19 @@ public class Reaction extends AdviceComponent {
             "abstracts the problem",
             "derives no pleasure",
             "weakens your constitution",
-            "harms the profit margins");
+            "harms the profit margins",
+            "presents an opportunity",
+            "affords you respect",
+            "comforts your friends",
+            "threatens the environment",
+            "prolongs the inevitable",
+            "averts a disaster",
+            "delays your decision",
+            "overwhelms you",
+            "undermines your intuition",
+            "reduces your hardships",
+            "tips the scales",
+            "brings you joy");
 
     @Override
     protected ImmutableList<String> getValues() {
