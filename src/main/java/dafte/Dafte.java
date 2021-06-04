@@ -21,7 +21,7 @@ public class Dafte implements HttpFunction {
      */
     public static void main(String[] args) {
         // Only one route baby. This is ALL we do
-        get("/", Dafte::getAdviceForSpark);
+        get("/", Dafte::routeGetAdvice);
     }
 
     /**
@@ -32,16 +32,18 @@ public class Dafte implements HttpFunction {
         DafteRequest dafteRequest = new DafteRequest(request);
 
         BufferedWriter writer = response.getWriter();
+        response.setContentType(dafteRequest.getShape().getContentType());
         writer.write(getAdvice(dafteRequest));
+    }
+
+    private static String routeGetAdvice(Request request, Response response) throws IOException {
+        DafteRequest dafteRequest = new DafteRequest(request);
+        response.header("Content-Type", dafteRequest.getShape().getContentType());
+        return getAdvice(dafteRequest);
     }
 
     protected static String getAdvice(DafteRequest dafteRequest) throws IOException {
         Advice advice = AdviceFactory.createAdviceFor(dafteRequest.getRequester());
-        return dafteRequest.getShape().buildResult(advice);
-    }
-
-    private static String getAdviceForSpark(Request request, Response response) throws IOException {
-        DafteRequest dafteRequest = new DafteRequest(request);
-        return getAdvice(dafteRequest);
+        return dafteRequest.getShape().createString(advice);
     }
 }

@@ -1,6 +1,8 @@
 package dafte.model;
 
 import com.google.cloud.functions.HttpRequest;
+import dafte.response.ResponseShapes;
+import dafte.response.ResponseShape;
 import spark.Request;
 
 import java.util.Arrays;
@@ -27,7 +29,7 @@ public class DafteRequest {
         String shapeString = QueryParam.SHAPE.getOneFrom(queryParameterMap);
 
         requester = new Requester(requesterName);
-        shape = ResponseShape.from(shapeString);
+        shape = ResponseShapes.get(shapeString);
     }
 
     public Requester getRequester() {
