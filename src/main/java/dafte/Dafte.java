@@ -8,7 +8,7 @@ import dafte.factory.RequestorFactory;
 import dafte.model.Advice;
 import dafte.model.DafteRequest;
 import dafte.model.Requester;
-import dafte.model.ResultShape;
+import dafte.model.ResponseShape;
 import spark.Request;
 import spark.Response;
 
@@ -40,10 +40,10 @@ public class Dafte implements HttpFunction {
 
     protected static String getAdvice(DafteRequest dafteRequest) throws IOException {
         Requester requester = RequestorFactory.fromRequest(dafteRequest);
-        ResultShape resultShape = ResultShape.fromRequest(dafteRequest);
+        ResponseShape responseShape = ResponseShape.fromRequest(dafteRequest);
         Advice advice = AdviceFactory.createAdviceFor(requester);
 
-        return resultShape.buildResult(advice);
+        return responseShape.buildResult(advice);
     }
 
     private static String getAdviceForSpark(Request request, Response response) throws IOException {

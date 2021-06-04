@@ -11,7 +11,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public enum ResultShape {
+public enum ResponseShape {
 
     JSON {
         @Override
@@ -31,12 +31,12 @@ public enum ResultShape {
 
     private static final ObjectMapper mapper = getObjectMapper();
 
-    private static final ImmutableMap<String, ResultShape> RESULT_SHAPE_MAP =
+    private static final ImmutableMap<String, ResponseShape> RESULT_SHAPE_MAP =
             ImmutableMap.copyOf(
                     Arrays.stream(values())
-                            .collect(Collectors.toMap(ResultShape::name, Function.identity())));
+                            .collect(Collectors.toMap(ResponseShape::name, Function.identity())));
 
-    public static ResultShape fromRequest(DafteRequest request) {
+    public static ResponseShape fromRequest(DafteRequest request) {
         Optional<String> paramString = Optional.ofNullable(request.getOneParamValue(QueryParam.SHAPE));
 
         return paramString.map(String::toUpperCase)
