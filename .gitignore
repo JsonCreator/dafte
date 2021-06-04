@@ -1,5 +1,3 @@
 # Ignored local files
 .gradle
-gradle
-gradlew*
 build
