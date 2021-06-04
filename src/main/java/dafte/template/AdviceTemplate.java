@@ -4,6 +4,7 @@ import dafte.template.components.Action;
 import dafte.template.components.AdviceComponent;
 import dafte.template.components.Facilitator;
 import dafte.template.components.Impetus;
+import dafte.template.components.Pairing;
 import dafte.template.components.Quandary;
 import dafte.template.components.Reaction;
 import dafte.template.components.Redirection;
@@ -20,6 +21,7 @@ public class AdviceTemplate {
     protected static final Quandary QUANDARY = new Quandary();
     protected static final Reaction REACTION = new Reaction();
     protected static final Redirection REDIRECTION = new Redirection();
+    protected static final Pairing PAIRING = new Pairing();
 
     protected final String template;
 
@@ -35,7 +37,12 @@ public class AdviceTemplate {
                 .map(component -> component.getComponentValue(randomSeed))
                 .toArray();
 
-        return String.format(template, componentValues);
+        return capitalize(String.format(template, componentValues));
+    }
+
+    private String capitalize(String advice) {
+        String first = advice.substring(0, 1).toUpperCase();
+        return first + advice.substring(1);
     }
 
 

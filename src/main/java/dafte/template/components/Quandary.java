@@ -5,18 +5,18 @@ import com.google.common.collect.ImmutableList;
 public class Quandary extends AdviceComponent {
 
     private static final ImmutableList<String> QUANDARIES = ImmutableList.of(
-            "Consider",
-            "Reflect on the possibility",
-            "Some days we realize",
-            "May you notice",
-            "Accept",
-            "Your peers agree",
-            "Empower yourself to believe",
-            "Mistakes can teach us",
-            "Yesterday's accomplishments remind us",
-            "Silence won't erase the fact",
-            "Embrace the magic in admitting",
-            "Reject the notion");
+            "consider",
+            "reflect on the possibility",
+            "some days we realize",
+            "may you notice",
+            "accept",
+            "your peers agree",
+            "empower yourself to believe",
+            "mistakes can teach us",
+            "yesterday's accomplishments remind us",
+            "silence won't erase the fact",
+            "embrace the magic in admitting",
+            "reject the notion");
 
     @Override
     protected ImmutableList<String> getValues() {

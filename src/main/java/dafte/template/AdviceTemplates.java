@@ -8,8 +8,8 @@ public class AdviceTemplates {
 
     private static final ImmutableList<AdviceTemplate> ADVICE_TEMPLATES = ImmutableList.of(
             new Contemplation(),
-            new Conditional()
-    );
+            new Conditional(),
+            new CauseAndEffect());
 
     public static AdviceTemplate getTemplate(Random randomSeed) {
         return ADVICE_TEMPLATES.get(randomSeed.nextInt(ADVICE_TEMPLATES.size()));
@@ -24,8 +24,15 @@ public class AdviceTemplates {
 
     static public class Conditional extends AdviceTemplate {
         public Conditional() {
-            super("If the %s to %s %s, %s %s.",
+            super("if the %s to %s %s, %s to %s.",
                     IMPETUS, ACTION, REACTION, REDIRECTION, ACTION);
+        }
+    }
+
+    static public class CauseAndEffect extends AdviceTemplate {
+        public CauseAndEffect() {
+            super("when you %s %s %s, your %s to %s %s.",
+                    ACTION, PAIRING, ACTION, IMPETUS, ACTION, REACTION);
         }
     }
 }
