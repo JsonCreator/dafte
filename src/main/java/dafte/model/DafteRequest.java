@@ -1,60 +1,48 @@
 package dafte.model;
 
 import com.google.cloud.functions.HttpRequest;
-import org.apache.commons.collections4.CollectionUtils;
 import spark.Request;
 
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class DafteRequest {
 
-    private final Map<String, List<String>> parameters;
+    private final Requester requester;
+
+    private final ResponseShape shape;
 
     public DafteRequest(Request request) {
-        parameters = coerceSparkRequest(request);
+        this(convertQueryParamMap(request.queryMap().toMap()));
     }
 
     public DafteRequest(HttpRequest request) {
-        parameters = request.getQueryParameters();
+        this(request.getQueryParameters());
     }
 
-    public String getOneParamValue(QueryParam queryParam) {
-        String variantInUse = findMatchingVariant(parameters.keySet(), queryParam.getVariants());
+    private DafteRequest(Map<String, List<String>> queryParameterMap) {
+        String requesterName = QueryParam.NAME.getOneFrom(queryParameterMap);
+        String shapeString = QueryParam.SHAPE.getOneFrom(queryParameterMap);
 
-        if (variantInUse != null &&
-                !parameters.get(variantInUse).isEmpty()) {
-            return parameters.get(variantInUse).get(0);
-        }
-
-        return null;
+        requester = new Requester(requesterName);
+        shape = ResponseShape.from(shapeString);
     }
 
-    private static String findMatchingVariant(Set<String> parameters, Set<String> paramVariants) {
-        Collection<String> matchedVariants = CollectionUtils.intersection(parameters, paramVariants);
-        return matchedVariants.stream().findFirst().orElse(null);
+    public Requester getRequester() {
+        return requester;
     }
 
-    private static Map<String, List<String>> coerceSparkRequest(Request request) {
+    public ResponseShape getShape() {
+        return shape;
+    }
+
+    private static Map<String, List<String>> convertQueryParamMap(Map<String, String[]> queryParamMap) {
         Map<String, List<String>> convertedMap = new HashMap<>();
-        for (Map.Entry<String, String[]> entry : request.queryMap().toMap().entrySet()) {
+        for (Map.Entry<String, String[]> entry : queryParamMap.entrySet()) {
             convertedMap.put(entry.getKey(), Arrays.asList(entry.getValue()));
         }
         return convertedMap;
-    }
-
-    public enum QueryParam {
-        NAME,
-        SHAPE;
-
-        public Set<String> getVariants() {
-            return Set.of(
-                    this.name(), // Uppercase is default
-                    this.name().toLowerCase());
-        }
     }
 }

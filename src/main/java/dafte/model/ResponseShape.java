@@ -3,7 +3,6 @@ package dafte.model;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.common.collect.ImmutableMap;
-import dafte.model.DafteRequest.QueryParam;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -36,10 +35,10 @@ public enum ResponseShape {
                     Arrays.stream(values())
                             .collect(Collectors.toMap(ResponseShape::name, Function.identity())));
 
-    public static ResponseShape fromRequest(DafteRequest request) {
-        Optional<String> paramString = Optional.ofNullable(request.getOneParamValue(QueryParam.SHAPE));
+    public static ResponseShape from(String shapeString) {
+        Optional<String> shape = Optional.ofNullable(shapeString);
 
-        return paramString.map(String::toUpperCase)
+        return shape.map(String::toUpperCase)
                 .map(RESULT_SHAPE_MAP::get)
                 .orElse(JSON);
     }

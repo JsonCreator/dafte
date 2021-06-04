@@ -4,11 +4,8 @@ import com.google.cloud.functions.HttpFunction;
 import com.google.cloud.functions.HttpRequest;
 import com.google.cloud.functions.HttpResponse;
 import dafte.factory.AdviceFactory;
-import dafte.factory.RequestorFactory;
 import dafte.model.Advice;
 import dafte.model.DafteRequest;
-import dafte.model.Requester;
-import dafte.model.ResponseShape;
 import spark.Request;
 import spark.Response;
 
@@ -39,11 +36,8 @@ public class Dafte implements HttpFunction {
     }
 
     protected static String getAdvice(DafteRequest dafteRequest) throws IOException {
-        Requester requester = RequestorFactory.fromRequest(dafteRequest);
-        ResponseShape responseShape = ResponseShape.fromRequest(dafteRequest);
-        Advice advice = AdviceFactory.createAdviceFor(requester);
-
-        return responseShape.buildResult(advice);
+        Advice advice = AdviceFactory.createAdviceFor(dafteRequest.getRequester());
+        return dafteRequest.getShape().buildResult(advice);
     }
 
     private static String getAdviceForSpark(Request request, Response response) throws IOException {
