@@ -58,6 +58,25 @@ DAFTE Supports the following query parameters to alter the default randomized ad
         {
           "preparedFor": "yukon-gold",  // Only when `name` is specified
           "date":"2021-06-18",
-          "advice":"The advice is in the journey."}
+          "advice":"The advice is in the journey."
         }
         ```
+
+## Deploying as a Google Cloud Function
+
+A more comprehensive guide can be found within Google's
+[documentation](https://cloud.google.com/functions/docs/first-java#gradle_1).
+
+If you have set up the following (instructions available at the above link):
+* `gcloud` sdk installed locally and in your path
+* a GCP Project created
+* Billing enabled for your Project
+* The Cloud Functions and Cloud Builds API enabled
+
+Then you can deploy the DAFTE function either using the gcloud function command:
+```shell
+gcloud functions deploy dafte --entry-point dafte.Dafte --runtime java11 --trigger-http --memory 512MB --allow-unauthenticated
+```
+
+or by using the shorthand `deploy-gcfunction.sh` script, which will run that exact command, you just won't have to
+remember all of it.
